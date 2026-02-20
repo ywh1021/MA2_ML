@@ -17,7 +17,7 @@ column_ranges = {
     column: df_water[column].max() - df_water[column].min() for column in Xw.columns
 }
 
-# Adjust the range for sliders to be 150% bigger than the dataset range
+# Adjust the range for sliders to be 150% bigger than the dataset range => should be 200%
 slider_ranges = {
     column: (
         df_water[column].min() - 0.5 * column_ranges[column],
@@ -49,7 +49,7 @@ st.title("Water Safety Prediction")
 # Input form for user to enter chemical elements and impurities
 user_input = {}
 for column in Xw.columns:
-    if column != "is_safe":
+    if column != "is_safe":  # because we don't need a slider of "is safe"
         user_input[column] = st.slider(
             f"{column} Value",
             min_value=0.0,
@@ -59,7 +59,7 @@ for column in Xw.columns:
         )
 
 # Create a user input DataFrame
-user_input_df = pd.DataFrame(user_input, index=[0])
+user_input_df = pd.DataFrame(user_input, index=[0]) # use index to make sure the format is an array
 
 # Scale the user input using the same scaler
 user_input_scaled = scaler.transform(user_input_df)
